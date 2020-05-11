@@ -1,0 +1,1 @@
+var Post = require('../models/post')
