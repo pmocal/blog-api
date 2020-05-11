@@ -7,7 +7,7 @@ var CommentSchema = new Schema(
     text: {type: String, required: true, max: 100},
     timestamp: {type: Date, default: Date.now},
     author: {type: String, required: true, max: 100},
-    post: { type: Schema.Types.ObjectId, ref: 'Post', required: true }, //reference to the associated book
+    post: { type: Schema.Types.ObjectId, ref: 'Post', required: true }, //reference to the associated post
   }
 );
 
@@ -15,7 +15,7 @@ var CommentSchema = new Schema(
 CommentSchema
 .virtual('url')
 .get(function () {
-  return '/post/' + this.post._id + '/comment/' + this._id;
+  return '/posts/' + this.post._id + '/comment/' + this._id;
 });
 
 CommentSchema
