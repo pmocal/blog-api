@@ -49,17 +49,29 @@ exports.post_create = [
 ]
 
 exports.post_get = function(req, res, next) {
-	Post.findById(req.params.id)
-	    .exec(function(err, post){
-	    	if (err) {
-	    		return next(err);
-	    	}
-	    	res.send(post);
-	    })
+	async.parallel({
+		post: function() {
+			Post.findById(req.params.postId).exec(callback)
+		},
+		comments: function() {
+			Comment.find({post: req.params.postId}).exec(callback)
+		}
+	}, function(err, results) {
+		if (err) {
+    		return next(err);
+    	}
+    	if (results.post==null) { // No results.
+			var err = new Error('Post not found');
+			err.status = 404;
+			return next(err);
+		}
+    	res.send([ results.post, results.comments ]);
+    	
+	}
 }
 
 exports.post_delete = function(req, res) {
-	Post.findByIdAndRemove(req.params.id)
+	Post.findByIdAndRemove(req.params.postId)
 		.exec(function(err) {
 			if (err) {
 				return next(err);
