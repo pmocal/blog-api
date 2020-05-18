@@ -20,7 +20,7 @@ PostSchema
 });
 
 PostSchema
-.virtual('timestamp')
+.virtual('timestamp_formatted')
 .get(function() {
   return moment(this.timestamp).format('MMMM Do YYYY, h:mm a');
 })

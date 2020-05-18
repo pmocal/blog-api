@@ -1,6 +1,9 @@
 var Comment = require('../models/comment');
+var passport = require('passport');
 var Post = require('../models/post');
 var async = require('async');
+const { body,validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
 
 exports.index = function(req, res) {
 	Post.find({})
@@ -11,6 +14,7 @@ exports.index = function(req, res) {
 }
 
 exports.post_create = [
+	passport.authenticate('jwt', {session: false}),
 	// Validate fields.
 	body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
 	body('timestamp', 'Timestamp must not be empty.').isLength({ min: 1 }).trim(),
@@ -67,15 +71,30 @@ exports.post_get = function(req, res, next) {
 		}
     	res.send([ results.post, results.comments ]);
     	
-	}
+	})
 }
 
-exports.post_delete = function(req, res) {
-	Post.findByIdAndRemove(req.params.postId)
-		.exec(function(err) {
+// exports.post_update = [
+// 	passport.authenticate('jwt', {session: false}),
+// 	(req, res, next) => {
+		
+// 	}
+// ]
+
+exports.post_delete = [
+	passport.authenticate('jwt', {session: false}),
+	(req, res, next) => {
+		Comment.deleteMany({post: req.params.postId}, function(err){
 			if (err) {
 				return next(err);
 			}
-			res.redirect('/post')
+			Post.findByIdAndRemove(req.params.postId)
+				.exec(function(err) {
+					if (err) {
+						return next(err);
+					}
+					res.redirect('/posts')
+				})
 		})
-}
+	}
+]

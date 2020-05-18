@@ -1,71 +1,71 @@
 var Comment = require('../models/comment');
 var Post = require('../models/post');
+var passport = require('passport')
 var async = require('async');
 
 exports.index = function(req, res) {
-	Comment.find({post: })
-	    .exec(function (err, posts) {
+	Comment.find({post: req.params.postId})
+	    .exec(function (err, comments) {
 	    	if (err) { return next(err); }
-	    	res.send(posts);
+	    	res.send(comments);
 	    })
 }
 
 exports.comment_create = function(req, res) {
 	// Validate fields.
-	body('postId', 'PostID must not be empty').isLength({ min: 1 }).trim(),
-	body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
+	body('author', 'Title must not be empty.').isLength({ min: 1 }).trim(),
 	body('timestamp', 'Timestamp must not be empty.').isLength({ min: 1 }).trim(),
 	body('text', 'Text must not be empty.').isLength({ min: 1 }).trim(),
-	body('link', 'Link must not be empty').isLength({ min: 1 }).trim(),
 
 	// Sanitize fields (using wildcard).
-	sanitizeBody('postId').escape(),
-	sanitizeBody('title').escape(),
+	sanitizeBody('author').escape(),
 	sanitizeBody('timestamp').escape(),
 	sanitizeBody('text').escape(),
-	sanitizeBody('link').escape(),
 
 	(req, res, next) => {
 
 		const errors = validationResult(req);
 
-		var post = new Post(
+		var comment = new Comment(
 		{
-			title: req.body.title,
 			timestamp: req.body.timestamp,
 			text: req.body.text,
-			link: req.body.link
+			author: req.body.author,
+			post: req.params.postId
 		});
 
 		if (!errors.isEmpty()) {
 			res.send('try again with valid parameters')
 		} else {
-			post.save(function(err) {
+			comment.save(function(err) {
 				if (err) {
 					next(err)
 				}
-				res.redirect(post.url)
+				res.redirect(comment.url)
 			})
 		}
 	}
 }
 
 exports.comment_get = function(req, res) {
-	Post.findById(req.params.id)
-	    .exec(function(err, post){
+	Comment.findById(req.params.commentId)
+	    .exec(function(err, comment){
 	    	if (err) {
 	    		return next(err);
 	    	}
-	    	res.send(post);
+	    	res.send(comment);
 	    })
 }
 
-exports.comment_delete = function(req, res) {
-	Post.findByIdAndRemove(req.params.id)
-		.exec(function(err) {
-			if (err) {
-				return next(err);
-			}
-			res.redirect('/post')
-		})
-}
+exports.comment_delete = [
+	passport.authenticate('jwt', {session: false}), 
+	function(req, res) {
+		Comment.findByIdAndRemove(req.params.commentId)
+			.exec(function(err) {
+				if (err) {
+					return next(err);
+				}
+				res.redirect('/posts/' + req.params.postId + '/comments/')
+			})
+	}
+]
