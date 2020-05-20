@@ -2,6 +2,7 @@ var Comment = require('../models/comment');
 var passport = require('passport');
 var Post = require('../models/post');
 var async = require('async');
+
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
@@ -14,39 +15,35 @@ exports.index = function(req, res) {
 }
 
 exports.post_create = [
-	passport.authenticate('jwt', {session: false}),
+	
 	// Validate fields.
 	body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
-	body('timestamp', 'Timestamp must not be empty.').isLength({ min: 1 }).trim(),
 	body('text', 'Text must not be empty.').isLength({ min: 1 }).trim(),
-	body('link', 'Link must not be empty').isLength({ min: 1 }).trim(),
+	body('link').trim(),
+	body('timestamp').trim(),
 
 	// Sanitize fields (using wildcard).
 	sanitizeBody('title').escape(),
-	sanitizeBody('timestamp').escape(),
 	sanitizeBody('text').escape(),
 	sanitizeBody('link').escape(),
+	sanitizeBody('timestamp').escape(),
 
+	// Sanitize fields (using wildcard).
 	(req, res, next) => {
-
 		const errors = validationResult(req);
-
 		var post = new Post(
 		{
 			title: req.body.title,
-			timestamp: req.body.timestamp,
 			text: req.body.text,
-			link: req.body.link
+			link: req.body.link,
+			timestamp: req.body.timestamp
 		});
-
-		if (!errors.isEmpty()) {
-			res.send('try again with valid parameters')
-		} else {
+		if (errors.isEmpty()) {
 			post.save(function(err) {
 				if (err) {
 					next(err)
 				}
-				res.redirect(post.url)
+				res.send(post)
 			})
 		}
 	}
@@ -54,10 +51,10 @@ exports.post_create = [
 
 exports.post_get = function(req, res, next) {
 	async.parallel({
-		post: function() {
+		post: function(callback) {
 			Post.findById(req.params.postId).exec(callback)
 		},
-		comments: function() {
+		comments: function(callback) {
 			Comment.find({post: req.params.postId}).exec(callback)
 		}
 	}, function(err, results) {
