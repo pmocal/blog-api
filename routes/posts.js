@@ -16,6 +16,6 @@ router.use('/:postId/comments', commentsRouter);
 
 // router.post('/:postId/update', post_controller.post_update);
 
-router.delete('/postId', post_controller.post_delete);
+router.delete('/:postId', post_controller.post_delete);
 
 module.exports = router;

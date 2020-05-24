@@ -15,7 +15,7 @@ exports.index = function(req, res) {
 }
 
 exports.post_create = [
-	
+	passport.authenticate('jwt', {session: false}),
 	// Validate fields.
 	body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
 	body('text', 'Text must not be empty.').isLength({ min: 1 }).trim(),
@@ -90,7 +90,7 @@ exports.post_delete = [
 					if (err) {
 						return next(err);
 					}
-					res.redirect('/posts')
+					res.redirect(303, '/posts')
 				})
 		})
 	}
