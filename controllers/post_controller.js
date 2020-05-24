@@ -38,12 +38,14 @@ exports.post_create = [
 			link: req.body.link,
 			timestamp: req.body.timestamp
 		});
-		if (errors.isEmpty()) {
+		if (!errors.isEmpty()) {
+			res.send('try again with valid parameters')
+		} else {
 			post.save(function(err) {
 				if (err) {
 					next(err)
 				}
-				res.send(post)
+				res.redirect(post.url)
 			})
 		}
 	}
