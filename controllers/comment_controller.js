@@ -30,7 +30,7 @@ exports.comment_create = [
 
 		var comment = new Comment(
 		{
-			timestamp: req.body.timestamp,
+			timestamp: req.body.timestamp || Date.now,
 			text: req.body.text,
 			author: req.body.author,
 			post: req.params.postId
@@ -49,7 +49,7 @@ exports.comment_create = [
 	}
 ]
 
-exports.comment_get = function(req, res) {
+exports.comment_get = function(req, res, next) {
 	Comment.findById(req.params.commentId)
 	    .exec(function(err, comment){
 	    	if (err) {
@@ -72,7 +72,7 @@ exports.comment_delete = [
 				if (err) {
 					return next(err);
 				}
-				res.redirect('/posts/' + req.params.postId + '/comments/')
+				res.redirect(303, '/posts/' + req.params.postId + '/comments/')
 			})
 	}
 ]

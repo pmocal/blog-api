@@ -36,7 +36,7 @@ exports.post_create = [
 			title: req.body.title,
 			text: req.body.text,
 			link: req.body.link,
-			timestamp: req.body.timestamp
+			timestamp: req.body.timestamp || Date.now
 		});
 		if (!errors.isEmpty()) {
 			res.send('try again with valid parameters')
@@ -73,12 +73,28 @@ exports.post_get = function(req, res, next) {
 	})
 }
 
-// exports.post_update = [
-// 	passport.authenticate('jwt', {session: false}),
-// 	(req, res, next) => {
-		
-// 	}
-// ]
+exports.post_update = [
+	passport.authenticate('jwt', {session: false}),
+	(req, res, next) => {
+		Post.findById(req.params.postId)
+			.exec(function (err, post) {
+		    	if (err) { return next(err); }
+		    	if (post==null) { // No results.
+					var err = new Error('Post not found');
+					err.status = 404;
+					return next(err);
+				}
+				post = new Post(
+				{
+					id: post._id,
+					title: req.body.title || post.title,
+					text: req.body.text,
+					link: req.body.link,
+					timestamp: req.body.timestamp || Date.now
+				});
+			})
+	}
+]
 
 exports.post_delete = [
 	passport.authenticate('jwt', {session: false}),
