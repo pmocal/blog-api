@@ -1,6 +1,6 @@
 # blog-api
 
-*Public Endpoints*
+__*Public Endpoints*__
 
 
 POST `/auth/login` with JSON body containing "username" and "password"
@@ -15,7 +15,7 @@ POST `/posts/:postId/comments/create` creates a comment on a post
 
 GET `/posts/:postId/comments/:commentId` returns a comment from a post
 
-*Private Endpoints*
+__*Private Endpoints*__
 
 
 POST `/posts/create` with JSON body containing "title" and "text", and, optionally, "link" and "timestamp"
