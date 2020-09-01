@@ -10,6 +10,7 @@ exports.index = function(req, res) {
 	Post.find({})
 	    .exec(function (err, posts) {
 	    	if (err) { return next(err); }
+	    	res.set('Access-Control-Allow-Origin', '*')
 	    	res.send(posts);
 	    })
 }
@@ -68,6 +69,7 @@ exports.post_get = function(req, res, next) {
 			err.status = 404;
 			return next(err);
 		}
+		res.set('Access-Control-Allow-Origin', '*')
     	res.send([ results.post, results.comments ]);
     	
 	})

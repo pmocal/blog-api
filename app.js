@@ -17,7 +17,8 @@ var auth = require('./routes/auth')
 const mongoose = require("mongoose");
 const hbs = require('hbs');
 const mongoDb = "mongodb+srv://" + process.env.DB_USER + ":" + 
-	process.env.DB_PASS + "@" + process.env.DB_HOST + "/kapsmo-website?retryWrites=true&w=majority";
+	process.env.DB_PASS + "@" + process.env.DB_HOST + "/" + process.env.DB_TABLE
+	 + "?retryWrites=true&w=majority";
 mongoose.connect(mongoDb, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
