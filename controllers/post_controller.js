@@ -21,13 +21,11 @@ exports.post_create = [
 	body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
 	body('text', 'Text must not be empty.').isLength({ min: 1 }).trim(),
 	body('link').trim(),
-	body('timestamp').trim(),
 
 	// Sanitize fields (using wildcard).
-	sanitizeBody('title').escape(),
-	sanitizeBody('text').escape(),
-	sanitizeBody('link').escape(),
-	sanitizeBody('timestamp').escape(),
+	sanitizeBody('title'),
+	sanitizeBody('text'),
+	sanitizeBody('link'),
 
 	// Sanitize fields (using wildcard).
 	(req, res, next) => {
@@ -37,7 +35,7 @@ exports.post_create = [
 			title: req.body.title,
 			text: req.body.text,
 			link: req.body.link,
-			timestamp: req.body.timestamp || Date.now
+			timestamp: req.body.timestamp
 		});
 		if (!errors.isEmpty()) {
 			res.send('try again with valid parameters')
