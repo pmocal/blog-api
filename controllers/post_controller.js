@@ -90,7 +90,7 @@ exports.post_update = [
 					title: req.body.title || post.title,
 					text: req.body.text,
 					link: req.body.link,
-					timestamp: req.body.timestamp || Date.now
+					timestamp: req.body.timestamp
 				});
 			})
 	}
