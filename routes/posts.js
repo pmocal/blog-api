@@ -14,7 +14,7 @@ router.get('/:postId', post_controller.post_get);
 
 router.use('/:postId/comments', commentsRouter);
 
-// router.post('/:postId/update', post_controller.post_update);
+router.post('/:postId/update', post_controller.post_update);
 
 router.delete('/:postId', post_controller.post_delete);
 
