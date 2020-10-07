@@ -26,6 +26,8 @@ router.post('/login', function (req, res, next) {
 
 				const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
 				res.cookie('token', token);
+				res.cookie('SameSite', 'None');
+				res.cookie('Secure');
 				res.redirect('/posts');
 			});
 		}
