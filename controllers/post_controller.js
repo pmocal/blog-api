@@ -10,7 +10,7 @@ exports.index = function(req, res) {
 	Post.find({})
 	    .exec(function (err, posts) {
 	    	if (err) { return next(err); }
-	    	res.set('Access-Control-Allow-Origin', '*')
+	    	// res.set('Access-Control-Allow-Origin', ['localhost:5000', 'kapsmo-website.herokuapp.com'])
 	    	res.send(posts);
 	    })
 }
@@ -67,7 +67,7 @@ exports.post_get = function(req, res, next) {
 			err.status = 404;
 			return next(err);
 		}
-		res.set('Access-Control-Allow-Origin', '*')
+		// res.set('Access-Control-Allow-Origin', '*')
     	res.send([ results.post, results.comments ]);
     	
 	})
@@ -76,6 +76,7 @@ exports.post_get = function(req, res, next) {
 exports.post_update = [
 	passport.authenticate('jwt', {session: false}),
 	(req, res, next) => {
+
 		Post.findById(req.params.postId)
 			.exec(function (err, post) {
 		    	if (err) { return next(err); }

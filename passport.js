@@ -2,6 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
+ExtractJwt = require('passport-jwt').ExtractJwt;
 const UserModel = require('./models/user');
 var mongoose = require('mongoose');
 

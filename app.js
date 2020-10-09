@@ -24,7 +24,12 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
 
 var app = express();
-app.use(cors())
+
+const corsOptions = {
+    origin: 'http://localhost:5000',
+    credentials: true,
+}
+app.use(cors(corsOptions))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
