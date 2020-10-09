@@ -24,10 +24,16 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
 
 var app = express();
-
+var whitelist = ['http://localhost:5000', 'https://kapsmo-website.herokuapp.com']
 const corsOptions = {
-    origin: 'http://localhost:5000',
-    credentials: true,
+    origin: function (origin, callback) {
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true
 }
 app.use(cors(corsOptions))
 
