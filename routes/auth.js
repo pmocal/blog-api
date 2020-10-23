@@ -24,7 +24,9 @@ router.post('/login', function (req, res, next) {
 				// contents of user object and
 				// return it in the response
 
-				const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
+				const token = jwt.sign(user.toJSON(), 'your_jwt_secret', {
+					expiresIn: 6048
+				});
 				res.cookie('token', token);
 				// res.cookie('SameSite', 'None');
 				// res.cookie('Secure');
