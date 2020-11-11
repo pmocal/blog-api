@@ -23,3 +23,7 @@ POST `/posts/create` with JSON body containing "title" and "text", and, optional
 DELETE `/posts/:postId` deletes a post
 
 DELETE `/posts/:postId/comments/:commentId` deletes a comment from a post
+
+GET `/photos/location/:locationId` gets all pictures tagged at a particular location
+
+POST `/photos/create` with form data containing "location" and file upload "img"
