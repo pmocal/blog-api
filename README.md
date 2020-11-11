@@ -1,5 +1,7 @@
 # blog-api
 
+If you want to deploy and use this blog API yourself, create a `.env` in the root of the repository which defines the following environment variables: `DB_HOST`, `DB_USER`, `DB_PASS`, and `DB_TABLE`. The repository is designed to use MongoDB.
+
 __*Public Endpoints*__
 
 
