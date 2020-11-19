@@ -27,32 +27,32 @@ var app = express();
 const whitelistIp = ['http://localhost', 'http://127.0.0.1'];
 var whitelist = ['http://localhost:5000', 'http://kapsmo-website.herokuapp.com', 'https://kapsmo-website.herokuapp.com']
 
-// var corsOptionsDelegate = function (req, callback) {
-//   const corsOptions = {
-//     credentials: true
-//   };
-//   const myIpAddress = req.connection.remoteAddress;
-//   if (whitelist.indexOf(req) !== -1 || whitelistIp.indexOf(myIpAddress) !== -1) {
-//     corsOptions.origin = true;
-//   } else {
-//     corsOptions.origin = false;
-//   }
-//   callback(null, corsOptions);
-// };
-// app.use(cors(corsOptionsDelegate));
-
-const corsOptions = {
-    origin: function (origin, callback) {
-      
-      if (whitelist.indexOf(origin) !== -1 || whitelistIp.indexOf(myIpAddress) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+var corsOptionsDelegate = function (req, callback) {
+  const corsOptions = {
     credentials: true
-}
-app.use(cors(corsOptions));
+  };
+  const myIpAddress = req.connection.remoteAddress;
+  if (whitelist.indexOf(req) !== -1 || whitelistIp.indexOf(myIpAddress) !== -1) {
+    corsOptions.origin = true;
+  } else {
+    corsOptions.origin = false;
+  }
+  callback(null, corsOptions);
+};
+app.use(cors(corsOptionsDelegate));
+
+// const corsOptions = {
+//     origin: function (origin, callback) {
+      
+//       if (whitelist.indexOf(origin) !== -1 || whitelistIp.indexOf(myIpAddress) !== -1) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//     credentials: true
+// }
+// app.use(cors(corsOptions));
 
 
 // view engine setup
