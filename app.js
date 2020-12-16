@@ -25,7 +25,7 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 
 var app = express();
 const whitelistIp = ['http://localhost', 'http://127.0.0.1'];
-var whitelist = ['http://localhost:5000', 'http://kapsmo-website.herokuapp.com', 'https://kapsmo-website.herokuapp.com']
+var whitelist = ['http://localhost:8080', 'http://localhost:5000', 'http://kapsmo-website.herokuapp.com', 'https://kapsmo-website.herokuapp.com']
 
 // var corsOptionsDelegate = function (req, callback) {
 //   const corsOptions = {
