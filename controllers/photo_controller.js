@@ -2,8 +2,10 @@ var passport = require('passport');
 var fs = require('fs');
 var Photo = require('../models/photo');
 var async = require('async');
+var path = require('path');
 var multer = require('multer');
 var upload = multer();
+
 
 exports.photo_create = [
 	passport.authenticate('jwt', { session: false }),
@@ -17,7 +19,7 @@ exports.photo_create = [
 		)
 		photo.save(function(err) {
 			if (err) {
-				next(err)
+				return next(err)
 			}
 			res.send({});
 		})

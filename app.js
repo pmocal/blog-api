@@ -43,8 +43,7 @@ var whitelist = ['http://localhost:8080', 'http://localhost:5000', 'http://kapsm
 
 const corsOptions = {
     origin: function (origin, callback) {
-      
-      if (whitelist.indexOf(origin) !== -1 || whitelistIp.indexOf(myIpAddress) !== -1) {
+      if (whitelist.indexOf(origin) !== -1 || origin == undefined || whitelistIp.indexOf(origin.connection.remoteAddress) !== -1) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
