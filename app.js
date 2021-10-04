@@ -43,7 +43,7 @@ var whitelist = [
 // };
 // app.use(cors(corsOptionsDelegate));
 
-const corsOptions = {
+var corsOptions = {
     origin: function (origin, callback) {
       if (whitelist.indexOf(origin) !== -1 || origin == undefined || whitelistIp.indexOf(origin.connection.remoteAddress) !== -1) {
         callback(null, true);
