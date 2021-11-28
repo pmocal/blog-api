@@ -45,6 +45,7 @@ var whitelist = [
 
 var corsOptions = {
     origin: function (origin, callback) {
+      console.log(origin);
       if (whitelist.indexOf(origin) !== -1 || origin == undefined || whitelistIp.indexOf(origin.connection.remoteAddress) !== -1) {
         callback(null, true);
       } else {
