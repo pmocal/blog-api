@@ -24,10 +24,10 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
 
 var app = express();
-const whitelistIp = ['http://localhost', 'http://127.0.0.1'];
-var whitelist = [
-  'http://localhost:8080', 'http://localhost:5000', 'http://kapsmo-website.herokuapp.com', 'https://kapsmo-website.herokuapp.com', 'http://localhost:3000'
-]
+// const whitelistIp = ['http://localhost', 'http://127.0.0.1'];
+// var whitelist = [
+//   'http://localhost:8080', 'http://localhost:5000', 'http://kapsmo-website.herokuapp.com', 'https://kapsmo-website.herokuapp.com', 'http://localhost:3000'
+// ]
 
 // var corsOptionsDelegate = function (req, callback) {
 //   const corsOptions = {
@@ -43,18 +43,17 @@ var whitelist = [
 // };
 // app.use(cors(corsOptionsDelegate));
 
-var corsOptions = {
-    origin: function (origin, callback) {
-      console.log(origin);
-      if (whitelist.indexOf(origin) !== -1 || origin == undefined || whitelistIp.indexOf(origin.connection.remoteAddress) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true
-}
-app.use(cors(corsOptions));
+// var corsOptions = {
+//     origin: function (origin, callback) {
+//       if (whitelist.indexOf(origin) !== -1 || origin == undefined || whitelistIp.indexOf(origin.connection.remoteAddress) !== -1) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//     credentials: true
+// }
+app.use(cors());
 
 
 // view engine setup
