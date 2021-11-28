@@ -53,7 +53,7 @@ var app = express();
 //     },
 //     credentials: true
 // }
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 
 
 // view engine setup
