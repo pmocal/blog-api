@@ -54,7 +54,7 @@ var app = express();
 //     credentials: true
 // }
 app.use(cors({credentials: true, origin: true}));
-
+app.options('*', cors({credentials: true, origin: true}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
