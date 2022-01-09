@@ -24,38 +24,13 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
 
 var app = express();
-// const whitelistIp = ['http://localhost', 'http://127.0.0.1'];
-// var whitelist = [
-//   'http://localhost:8080', 'http://localhost:5000', 'http://kapsmo-website.herokuapp.com', 'https://kapsmo-website.herokuapp.com', 'http://localhost:3000'
-// ]
 
-// var corsOptionsDelegate = function (req, callback) {
-//   const corsOptions = {
-//     credentials: true
-//   };
-//   const myIpAddress = req.connection.remoteAddress;
-//   if (whitelist.indexOf(req) !== -1 || whitelistIp.indexOf(myIpAddress) !== -1) {
-//     corsOptions.origin = true;
-//   } else {
-//     corsOptions.origin = false;
-//   }
-//   callback(null, corsOptions);
-// };
-// app.use(cors(corsOptionsDelegate));
+var productionTip = true;
+var origin = (productionTip) ? 'https://kapsmo-website.herokuapp.com' : 'http://localhost:8080'
 
-// var corsOptions = {
-//     origin: function (origin, callback) {
-//       if (whitelist.indexOf(origin) !== -1 || origin == undefined || whitelistIp.indexOf(origin.connection.remoteAddress) !== -1) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error('Not allowed by CORS'));
-//       }
-//     },
-//     credentials: true
-// }
 app.use('/*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Origin", origin);
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
 

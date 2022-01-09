@@ -10,7 +10,6 @@ exports.index = function(req, res) {
 	Post.find({})
 	    .exec(function (err, posts) {
 	    	if (err) { return next(err); }
-	    	// res.set('Access-Control-Allow-Origin', ['localhost:5000', 'kapsmo-website.herokuapp.com'])
 	    	res.send(posts);
 	    })
 }
