@@ -27,13 +27,6 @@ var app = express();
 var productionTip = true;
 var origin = (productionTip) ? 'https://kapsmo-website.herokuapp.com' : 'http://localhost:8080';
 
-app.use('/*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", origin);
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -45,6 +38,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
+
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", origin);
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/auth', auth);
