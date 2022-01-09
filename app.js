@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 const passport = require('passport');
-var cors = require('cors');
 require('./passport');
 
 var indexRouter = require('./routes/index');
@@ -26,10 +25,11 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 var app = express();
 
 var productionTip = true;
-var origin = (productionTip) ? 'https://kapsmo-website.herokuapp.com' : 'http://localhost:8080'
+var origin = (productionTip) ? 'https://kapsmo-website.herokuapp.com' : 'http://localhost:8080';
 
 app.use('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", origin);
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
