@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
 
-app.use(cors());
+app.use(cors({ origin: origin, credentials: true }));
 
 app.use('/', indexRouter);
 app.use('/auth', auth);
