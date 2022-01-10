@@ -1,6 +1,7 @@
 require('dotenv').config()
 var createError = require('http-errors');
 var express = require('express');
+var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -39,13 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
 
-app.all('/*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", origin);
-  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-  res.header("Access-Control-Expose-Headers", '*');
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/auth', auth);
